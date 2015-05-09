@@ -1,9 +1,0 @@
-# dev stuff
-/.idea/
-/nbproject/
-
-.project
-.buildpath
-.settings/
-vendor/
-atlassian-ide-plugin.xml
