@@ -27,7 +27,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'Medical',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -36,8 +36,12 @@ AppAsset::register($this);
 
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'About', 'url' => ['/site/about']],
-                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Korisnici', 'url' => ['/user/index']],
+                ['label' => 'Firme Korisnika', 'url' => ['/company/index']],
+                ['label' => 'Pacijenti', 'url' => ['/pacient/index']],
+                ['label' => 'Pregledi', 'url' => ['/optometrist/index']],
+                ['label' => 'Prodaja', 'url' => ['/prodaja/index']],
+                ['label' => 'Kontakt', 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Signup', 'url' => ['index/site/signup']];
