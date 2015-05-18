@@ -22,6 +22,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
     <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
@@ -38,8 +39,8 @@ AppAsset::register($this);
                 ['label' => 'Contact', 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+                $menuItems[] = ['label' => 'Signup', 'url' => ['index/site/signup']];
+                $menuItems[] = ['label' => 'Login', 'url' => ['index/site/login']];
             } else {
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
