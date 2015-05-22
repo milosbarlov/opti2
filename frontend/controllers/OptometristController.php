@@ -8,7 +8,7 @@ use common\models\search\OptometristSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use common\models\Pacient;
 /**
  * OptometristController implements the CRUD actions for Optometrist model.
  */
@@ -61,12 +61,24 @@ class OptometristController extends Controller
     public function actionCreate()
     {
         $model = new Optometrist();
+        $pacients = Pacient::find()->where(['company_id'=>Yii::$app->company->id])->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $data = [];
+        foreach($pacients as $pacient){
+            $data[]=['label'=>$pacient->first_name.' '.$pacient->last_name ,'id'=>$pacient->id];
+        }
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_at = strtotime($model->created_at);
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         } else {
+
+
             return $this->render('create', [
                 'model' => $model,
+                'data'=>$data,
             ]);
         }
     }
@@ -80,12 +92,22 @@ class OptometristController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $pacients = Pacient::find()->where(['company_id'=>Yii::$app->company->id])->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $data = [];
+        foreach($pacients as $pacient){
+            $data[]=['label'=>$pacient->first_name.' '.$pacient->last_name ,'id'=>$pacient->id];
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'data'=>$data,
             ]);
         }
     }

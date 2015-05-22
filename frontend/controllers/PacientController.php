@@ -62,13 +62,19 @@ class PacientController extends Controller
     {
         $model = new Pacient();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->company_id = Yii::$app->company->id;
+            $model->birthday = strtotime($model->birthday);
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+        }
+
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+
     }
 
     /**

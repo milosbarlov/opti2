@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\search\Company;
 use Yii;
 
 /**
@@ -42,5 +43,17 @@ class IncomeHeader extends \yii\db\ActiveRecord
             'company_id' => 'Company ID',
             'income_date' => 'Income Date',
         ];
+    }
+
+    /**
+     * Relations
+     */
+
+    public function getIncomeDetails(){
+        return $this->hasMany(IncomeDetail::className(),['income_header_id'=>'id']);
+    }
+
+    public function getCompany(){
+        return $this->hasOne(Company::className(),['id'=>'company_id']);
     }
 }

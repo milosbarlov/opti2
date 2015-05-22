@@ -35,7 +35,7 @@ class Pacient extends \yii\db\ActiveRecord
     {
         return [
             [['company_id', 'first_name', 'last_name', 'birthday'], 'required'],
-            [['company_id', 'birthday', 'city_id'], 'integer'],
+            [['company_id','pin', 'city_id'], 'integer'],
             [['first_name'], 'string', 'max' => 45],
             [['last_name', 'phone'], 'string', 'max' => 100],
             [['address', 'email'], 'string', 'max' => 255],
@@ -50,15 +50,31 @@ class Pacient extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'company_id' => 'Company ID',
+            'company_id' => 'Company',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'birthday' => 'Birthday',
-            'city_id' => 'City ID',
+            'city_id' => 'City',
             'address' => 'Address',
             'phone' => 'Phone',
             'email' => 'Email',
-            'pin' => 'Pin',
+            'pin' => 'Maticni broj',
         ];
+    }
+
+    /*
+     * Relations
+     */
+
+    public function getOptometrist(){
+        return $this->hasMany(Optometrist::className(),['pacient_id'=>'id']);
+    }
+
+    public function getCompany(){
+        return $this->hasOne(Company::className(),['id'=>'company_id']);
+    }
+
+    public function getCity(){
+        return $this->hasOne(City::className(),['id'=>'city_id']);
     }
 }

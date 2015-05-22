@@ -10,11 +10,15 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'on beforeAction'=>['frontend\components\CheckCompany','haveCompany'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+        ],
+        'company'=>[
+            'class'=>'frontend\components\CompanyComponent',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -28,6 +32,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
     ],
     'params' => $params,
 ];

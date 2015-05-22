@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Create Optometrist';
 $this->params['breadcrumbs'][] = ['label' => 'Optometrists', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="optometrist-create">
 
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'data'=>$data,
     ]) ?>
 
 </div>

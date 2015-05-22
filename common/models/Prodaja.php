@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\web\User;
 
 /**
  * This is the model class for table "prodaja".
@@ -63,5 +64,20 @@ class Prodaja extends \yii\db\ActiveRecord
             'total_price' => 'Total Price',
             'napomena' => 'Napomena',
         ];
+    }
+    /*
+     * Relations
+     */
+
+    public function getCompany(){
+        return $this->hasOne(Company::className(),['id'=>'company_id']);
+    }
+
+    public function getUser(){
+        return $this->hasOne(User::className(),['id'=>'user_id']);
+    }
+
+    public function getPacient(){
+        return $this->hasOne(Pacient::className(),['id'=>'pacient_id']);
     }
 }

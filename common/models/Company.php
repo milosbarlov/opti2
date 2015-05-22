@@ -45,12 +45,61 @@ class Company extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'tin' => 'Tin',
+            'tin' => 'Pib',
             'name' => 'Name',
-            'city_id' => 'City ID',
+            'city_id' => 'City',
             'address' => 'Address',
-            'cin' => 'Cin',
+            'cin' => 'Maticni broj',
             'pdv' => 'Pdv',
         ];
+    }
+
+    /*
+     *  Relations
+     */
+
+    public function getCalcHeaders(){
+        return $this->hasMany(CalcHeader::className(),['company_id'=>'id']);
+    }
+
+    public function getCity(){
+        return $this->hasOne(City::className(),['id'=>'city_id']);
+    }
+
+    public function getCompanyInfos(){
+        return $this->hasMany(CompanyInfo::className(),['company_id'=>'id']);
+    }
+
+    public function getIncomeHeader(){
+        return $this->hasMany(IncomeHeader::className(),['company_id'=>'id']);
+    }
+
+    public function getPacients(){
+        return $this->hasMany(Pacient::className(),['company_id'=>'id']);
+    }
+
+    public function getUserCompanies(){
+        return $this->hasMany(UserCompany::className(),['company_id'=>'id']);
+    }
+
+    /**
+     * @return array Pdv for dropdown menu
+     */
+
+    public function getPdvStatus(){
+        return [
+            0 =>'Ne',
+            1=>'Da'
+        ];
+    }
+
+    /**
+     * @param $id  Value of Pdv
+     * @return string Name Pdv
+     */
+
+    public function getPdvName($id){
+
+        return $id == 0 ? 'Ne':'Da';
     }
 }

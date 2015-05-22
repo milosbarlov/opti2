@@ -18,8 +18,8 @@ class Company extends CompanyModel
     public function rules()
     {
         return [
-            [['id', 'city_id', 'pdv'], 'integer'],
-            [['tin', 'name', 'address', 'cin'], 'safe'],
+            [['id', 'pdv'], 'integer'],
+            [['tin', 'name','city_id', 'address', 'cin'], 'safe'],
         ];
     }
 
@@ -55,16 +55,19 @@ class Company extends CompanyModel
             return $dataProvider;
         }
 
+        $query->joinWith('city');
+
         $query->andFilterWhere([
             'id' => $this->id,
-            'city_id' => $this->city_id,
+           // 'city_id' => $this->city_id,
             'pdv' => $this->pdv,
         ]);
 
         $query->andFilterWhere(['like', 'tin', $this->tin])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'cin', $this->cin]);
+            ->andFilterWhere(['like', 'cin', $this->cin])
+            ->andFilterWhere(['like', 'city.name', $this->city_id]);
 
         return $dataProvider;
     }

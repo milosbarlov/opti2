@@ -8,10 +8,13 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use yii\base\Model;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\User;
+use common\models\UserCompany;
 
 /**
  * Site controller
@@ -43,7 +46,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post','get'],
                 ],
             ],
         ];
@@ -67,6 +70,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+
+
+      //  print_r(Yii::$app->company->id);exit();
+
         return $this->render('index');
     }
 
@@ -78,6 +85,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $checkDefault = UserCompany::findOne(['user_id'=>Yii::$app->user->identity->id,'is_default'=>1]);
+            if(!empty($checkDefault))
+                Yii::$app->session->set('companyId',$checkDefault->company_id);
+
             return $this->goBack();
         } else {
             return $this->render('login', [

@@ -18,8 +18,8 @@ class PacientSearch extends Pacient
     public function rules()
     {
         return [
-            [['id', 'company_id', 'birthday', 'city_id'], 'integer'],
-            [['first_name', 'last_name', 'address', 'phone', 'email', 'pin'], 'safe'],
+            [['id', 'city_id'], 'integer'],
+            [['first_name','company_id', 'last_name', 'birthday','address', 'phone', 'email', 'pin'], 'safe'],
         ];
     }
 
@@ -43,6 +43,8 @@ class PacientSearch extends Pacient
     {
         $query = Pacient::find();
 
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,10 +57,10 @@ class PacientSearch extends Pacient
             return $dataProvider;
         }
 
+        $query->joinWith('company');
+
         $query->andFilterWhere([
             'id' => $this->id,
-            'company_id' => $this->company_id,
-            'birthday' => $this->birthday,
             'city_id' => $this->city_id,
         ]);
 
@@ -67,8 +69,9 @@ class PacientSearch extends Pacient
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'pin', $this->pin]);
-
+            ->andFilterWhere(['like', 'pin', $this->pin])
+            ->andFilterWhere(['like', 'birthday', strtotime($this->birthday)])
+            ->andFilterWhere(['like', 'company.name', $this->company_id]);
         return $dataProvider;
     }
 }

@@ -53,4 +53,24 @@ class Supplier extends \yii\db\ActiveRecord
             'data_type' => 'Data Type',
         ];
     }
+
+    /**
+     * Relations
+     */
+
+    public function getArticles(){
+        return $this->hasMany(Article::className(),['supplier_id'=>'id']);
+    }
+
+    public function getCalcHeader(){
+        return $this->hasMany(CalcHeader::className(),['supplier_id'=>'id']);
+    }
+
+    public function getCity(){
+        return $this->hasOne(City::className(),['id'=>'city_id']);
+    }
+
+    public function getSupplierInfo(){
+        return $this->hasMany(SupplierInfo::className(),['supplier_id'=>'id']);
+    }
 }

@@ -26,6 +26,8 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 1;
 
+
+
     /**
      * @inheritdoc
      */
@@ -50,8 +52,22 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['username','email','password_hash'],'required'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'password_hash' => 'Password',
+            'password_reset_token' => 'Password reset token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'auth_key'=>'Auth key'
         ];
     }
 
@@ -185,4 +201,21 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * Relations
+     */
+
+    public function getUserCompanies(){
+        return $this->hasMany(UserCompany::className(),['user_id'=>'id']);
+    }
+
+    public function getAdminCompany(){
+        return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.is_admin'=>1]);
+    }
+
+    public function getDefaultCompany(){
+        return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.is_default'=>1]);
+    }
+
 }

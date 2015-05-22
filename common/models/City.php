@@ -2,7 +2,12 @@
 
 namespace common\models;
 
+
 use Yii;
+use  yii\helpers\ArrayHelper;
+
+
+
 
 /**
  * This is the model class for table "city".
@@ -47,4 +52,38 @@ class City extends \yii\db\ActiveRecord
             'zip' => 'Zip',
         ];
     }
+
+    /**
+     * Relations
+     */
+
+    public function getCompanies(){
+        return $this->hasMany(Company::className(),['city_id'=>'id']);
+    }
+
+    public function getSuppliers(){
+        return $this->hasMany(Supplier::className(),['city_id'=>'id']);
+    }
+
+
+    /**
+     *  Return all city key=>value(id=>name)
+     */
+
+    public static function getAllCity(){
+        $cityName = ArrayHelper::map(City::find()->all(),'id','name');
+        return $cityName;
+    }
+
+    /**
+     * @param $id   City id
+     * @return string  Return city name
+     */
+
+    public static function getCityName($id){
+        $model = City::findOne($id);
+        return $model->name;
+    }
+
+
 }

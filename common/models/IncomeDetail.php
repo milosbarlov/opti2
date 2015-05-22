@@ -48,4 +48,11 @@ class IncomeDetail extends \yii\db\ActiveRecord
             'data_type' => 'Data Type',
         ];
     }
+
+    /**
+     * Relations
+     */
+    public function getIncomeHeader(){
+        return $this->hasOne(IncomeHeader::className(),['id'=>'income_header_id']);
+    }
 }

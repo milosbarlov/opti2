@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use frontend\components\widget\SideMenuWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Optometrist */
@@ -11,8 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Optometrists', 'url' => ['index']]
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="optometrist-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="container">
+    <h1><?= Html::encode($model->pacient->first_name .' '.$model->pacient->last_name) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -25,11 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <div class="row">
+        <div class="col-md-3">
+            <?= SideMenuWidget::widget([
+                'items'=>[
+                    ['label'=>'Listanje Pregleda','url'=>'optometrist/index'],
+                    ['label'=>'Novi Pregled','url'=>'optometrist/create'],
+                    ['label'=>'Dodaj pacijenta','url'=>'pacient/create']
+                ]
+            ])?>
+        </div>
+        <div class="col-md-9">
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'pacient_id',
+
+            [
+              'attribute'=>'pacient_id',
+               'value'=>$model->pacient->first_name.' '.$model->pacient->last_name
+            ],
             'dodsph',
             'dodcyl',
             'dodax',
@@ -56,5 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
         ],
     ]) ?>
+    </div>
+        </div>
+    </div>
 
 </div>

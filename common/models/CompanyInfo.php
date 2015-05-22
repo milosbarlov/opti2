@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Faker\Provider\me_ME\Company;
 use Yii;
 
 /**
@@ -48,5 +49,13 @@ class CompanyInfo extends \yii\db\ActiveRecord
             'is_default' => 'Is Default',
             'type' => 'Type',
         ];
+    }
+
+    /*
+     * Relations
+     */
+
+    public function getCompany(){
+        return $this->hasOne(Company::companyName(),['id'=>'company_id']);
     }
 }

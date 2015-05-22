@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\components\widget\SideMenuWidget;
+
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\Company */
@@ -15,26 +18,41 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Company', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+   <div class="container">
+       <div class="row">
+           <div class="col-md-3" style="margin-top:17px;">
+                <?= SideMenuWidget::widget([
+                    'items'=>[
+                        ['label'=>'Listanje Firmi','url'=>'index'],
+                        ['label'=>'Nova Firma','url'=>'create'],
+                    ]
+                ])?>
+           </div>
+           <div class="col-md-9">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                       // 'id',
+                        'name',
+                        'tin',
+                        [
+                            'attribute'=>'city_id',
+                            'label'=>'City',
+                            'value'=>'city.name'
+                        ],
 
-            'id',
-            'tin',
-            'name',
-            'city_id',
-            'address',
-            // 'cin',
-            // 'pdv',
+                        'address',
+                        // 'cin',
+                        // 'pdv',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]); ?>
+          </div>
+       </div>
+    </div>
 
 </div>

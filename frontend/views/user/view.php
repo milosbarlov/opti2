@@ -2,16 +2,17 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use frontend\components\widget\SideMenuWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 
-$this->title = $model->id;
+$this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
-
+    <div class="container">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -24,20 +25,33 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'email:email',
-            'status',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    </div>
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <?= SideMenuWidget::widget([
+                'items'=>[
+                ['label'=>'Lista Korisnika','url'=>'index'],
+                ['label'=>'Novi Korisnik','url'=>'create']]
+            ])?>
+        </div>
+        <div class="col-sm-9">
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    'id',
+                    'username',
+                  //  'auth_key',
+                  //  'password_hash',
+                   // 'password_reset_token',
+                    'email:email',
+                   // 'status',
+                  //  'created_at',
+                  //  'updated_at',
+                ],
+            ]) ?>
+    </div>
+    </div>
+    </div>
 
 </div>

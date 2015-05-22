@@ -52,4 +52,12 @@ class Article extends \yii\db\ActiveRecord
             'coefficient' => 'Coefficient',
         ];
     }
+
+    /**
+     * Relations
+     */
+
+    public function getSupplier(){
+        return $this->hasOne(Supplier::className(),['id'=>'supplier_id']);
+    }
 }

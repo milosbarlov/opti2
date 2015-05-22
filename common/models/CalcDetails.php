@@ -58,4 +58,12 @@ class CalcDetails extends \yii\db\ActiveRecord
             'seling_price' => 'Seling Price',
         ];
     }
+
+    /**
+     * Relations
+     */
+
+    public function getCalcHeader(){
+        return $this->hasOne(CalcHeader::className(),['id'=>'calc_header_id']);
+    }
 }

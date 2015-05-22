@@ -50,8 +50,8 @@ class Optometrist extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pacient_id', 'created_at'], 'required'],
-            [['pacient_id', 'predio', 'created_at'], 'integer'],
+            [['pacient_id', 'created_at','predio'], 'required'],
+            [['pacient_id', 'predio'], 'integer'],
             [['dstakla', 'dokvir', 'bstakla', 'bokvir', 'note', 'personal_note'], 'string'],
             [['dodsph', 'dodcyl', 'dodax', 'dossph', 'doscyl', 'dosax', 'dpd', 'bodsph', 'bodcyl', 'bodax', 'bossph', 'boscyl', 'bosax', 'bpd'], 'string', 'max' => 6],
             [['vod', 'vos'], 'string', 'max' => 7]
@@ -65,7 +65,7 @@ class Optometrist extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'pacient_id' => 'Pacient ID',
+            'pacient_id' => 'Pacient',
             'dodsph' => 'Dodsph',
             'dodcyl' => 'Dodcyl',
             'dodax' => 'Dodax',
@@ -91,5 +91,13 @@ class Optometrist extends \yii\db\ActiveRecord
             'personal_note' => 'Personal Note',
             'created_at' => 'Created At',
         ];
+    }
+
+    /*
+     * Relations
+     */
+
+    public function getPacient(){
+        return $this->hasOne(Pacient::className(),['id'=>'pacient_id']);
     }
 }

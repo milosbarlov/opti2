@@ -49,4 +49,12 @@ class SupplierInfo extends \yii\db\ActiveRecord
             'type' => 'Type',
         ];
     }
+
+    /**
+     * Relations
+     */
+
+    public function getSupplier(){
+        return $this->hasOne(Supplier::className(),['id'=>'supplier_id']);
+    }
 }

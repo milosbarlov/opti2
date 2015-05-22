@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\UserCompany;
 use Yii;
 use common\models\User;
 use common\models\search\UserSearch;
@@ -61,10 +62,22 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
+        $userCompany = new UserCompany();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($model->password_hash);
+            $model->generateAuthKey();
+            if($model->save()){
+                $userCompany->company_id = Yii::$app->company->id;
+                $userCompany->user_id = $model->id;
+                $userCompany->is_default = 1;
+                if($userCompany->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+
         } else {
+
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -81,7 +94,10 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+           // print_r(Yii::$app->request->post());exit();
+            $model->setPassword($model->password);
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -98,7 +114,13 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+
+        $model =$this->findModel($id);
+        $UserCompanies = $model->userCompanies;
+        foreach($UserCompanies as $company){
+            $company->delete();
+        }
+        $model->delete();
 
         return $this->redirect(['index']);
     }

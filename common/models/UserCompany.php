@@ -31,7 +31,7 @@ class UserCompany extends \yii\db\ActiveRecord
         return [
             [['user_id', 'company_id'], 'required'],
             [['is_default', 'is_admin'], 'integer'],
-            [['user_id', 'company_id'], 'string', 'max' => 10]
+            [['user_id', 'company_id'], 'integer']
         ];
     }
 
@@ -47,5 +47,16 @@ class UserCompany extends \yii\db\ActiveRecord
             'is_default' => 'Is Default',
             'is_admin' => 'Is Admin',
         ];
+    }
+
+    /**
+     * Relations
+     */
+    public function getCompany(){
+       return  $this->hasOne(Company::className(),['id' =>'company_id']);
+    }
+
+    public function getUser(){
+       return  $this->hasOne(User::className(),['id'=>'user_id']);
     }
 }

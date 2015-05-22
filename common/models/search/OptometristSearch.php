@@ -18,8 +18,8 @@ class OptometristSearch extends Optometrist
     public function rules()
     {
         return [
-            [['id', 'pacient_id', 'predio', 'created_at'], 'integer'],
-            [['dodsph', 'dodcyl', 'dodax', 'dossph', 'doscyl', 'dosax', 'dpd', 'dstakla', 'dokvir', 'bodsph', 'bodcyl', 'bodax', 'bossph', 'boscyl', 'bosax', 'bpd', 'bstakla', 'bokvir', 'vod', 'vos', 'note', 'personal_note'], 'safe'],
+            [['id', 'predio', 'created_at'], 'integer'],
+            [['dodsph','pacient_id', 'dodcyl', 'dodax', 'dossph', 'doscyl', 'dosax', 'dpd', 'dstakla', 'dokvir', 'bodsph', 'bodcyl', 'bodax', 'bossph', 'boscyl', 'bosax', 'bpd', 'bstakla', 'bokvir', 'vod', 'vos', 'note', 'personal_note'], 'safe'],
         ];
     }
 
@@ -55,12 +55,16 @@ class OptometristSearch extends Optometrist
             return $dataProvider;
         }
 
+        $query->joinWith('pacient');
+
         $query->andFilterWhere([
             'id' => $this->id,
-            'pacient_id' => $this->pacient_id,
             'predio' => $this->predio,
             'created_at' => $this->created_at,
         ]);
+
+        $query->andFilterWhere(['like', 'pacient.first_name', $this->pacient_id])
+            ->orFilterWhere(['like','pacient.last_name',$this->pacient_id]);
 
         $query->andFilterWhere(['like', 'dodsph', $this->dodsph])
             ->andFilterWhere(['like', 'dodcyl', $this->dodcyl])
@@ -83,6 +87,7 @@ class OptometristSearch extends Optometrist
             ->andFilterWhere(['like', 'vod', $this->vod])
             ->andFilterWhere(['like', 'vos', $this->vos])
             ->andFilterWhere(['like', 'note', $this->note])
+
             ->andFilterWhere(['like', 'personal_note', $this->personal_note]);
 
         return $dataProvider;
