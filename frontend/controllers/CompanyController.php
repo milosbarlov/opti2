@@ -101,16 +101,42 @@ class CompanyController extends Controller
         $userCompany = UserCompany::findOne(['user_id'=>Yii::$app->user->identity->id,'company_id'=>$model->id]);
 
 
-        if ($model->load(Yii::$app->request->post()) && $userCompany->load(Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post()))
         {
-           exit('Odradi ovo :)');
 
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'userCompany'=>$userCompany,
-            ]);
+            if($userCompany->is_default == 1  &&  $_POST['UserCompany']['is_default'] == 0){
+
+                $userCompany->addError('is_default', 'Ne mozete da promeniti Default na "Ne". Izaberite firmu koju zelite da vam bude Default i promenite polje na "Da" ');
+                return $this->render('update', [
+                    'model' => $model,
+                    'userCompany'=>$userCompany,
+                ]);
+            }
+            if($model->save()){
+                $allCompanies = UserCompany::findAll(['user_id'=>Yii::$app->user->identity->id]);
+                foreach($allCompanies as $c){
+                    $c->is_default = 0;
+                    $c->save();
+                }
+                $userCompany->is_default = $_POST['UserCompany']['is_default'];
+                $userCompany->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                return $this->render('update', [
+                    'model' => $model,
+                    'userCompany'=>$userCompany,
+                ]);
+            }
+
         }
+
+
+
+        return $this->render('update', [
+            'model' => $model,
+            'userCompany'=>$userCompany,
+        ]);
+
     }
 
     /**

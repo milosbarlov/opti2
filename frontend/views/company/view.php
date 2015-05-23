@@ -46,6 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute'=>'city_id',
                             'value'=>$model->city->name,
                         ],
+                        [
+                          'attribute'=>'defaultUserCompany',
+                           'label'=>'Default',
+                           'value'=>$model->defaultUserCompany->is_default == 0?'Ne':'Da',
+                        ],
                         'address',
                         'cin',
                         [

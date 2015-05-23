@@ -34,6 +34,7 @@ class UserCompany extends \yii\db\ActiveRecord
             [['user_id', 'company_id'], 'integer'],
 
 
+
         ];
     }
 
@@ -73,5 +74,18 @@ class UserCompany extends \yii\db\ActiveRecord
         ];
     }
 
+    public function defaultValidate(){
+        if($this->is_default == 0){
+            $this->addError('Default', 'Ne mozete da promeniti Default na "Ne". Izaberite firmu koju zelite da vam bude Default i promenite polje na "Da" ');
+            return false;
+        }else{
+            $allCompany = UserCompany::findAll(['user_id'=>Yii::$app->user->identity->id]);
+            foreach($allCompany as $c){
+                $c->is_default = 0;
+                $c->save(false);
+            }
+            return true;
+        }
+    }
 
 }

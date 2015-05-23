@@ -82,6 +82,10 @@ class Company extends \yii\db\ActiveRecord
         return $this->hasMany(UserCompany::className(),['company_id'=>'id']);
     }
 
+    public function getDefaultUserCompany(){
+        return $this->hasOne(UserCompany::className(),['company_id'=>'id'])->onCondition(['user_company.is_default'=>1]);
+    }
+
     /**
      * @return array Pdv for dropdown menu
      */
