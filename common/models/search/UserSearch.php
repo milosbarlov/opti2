@@ -45,6 +45,17 @@ class UserSearch extends User
     {
         $query = User::find();
 
+        $model = User::findOne(Yii::$app->user->identity->id);
+
+
+
+        if(!empty($model->adminCompany)){
+            $query->joinWith('currentCompany',true,'INNER JOIN');
+        }else{
+            $query->where(['id'=>Yii::$app->user->identity->id]);
+        }
+
+
 
 
         $dataProvider = new ActiveDataProvider([

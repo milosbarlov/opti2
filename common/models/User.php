@@ -211,11 +211,15 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function getAdminCompany(){
-        return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.is_admin'=>1]);
+        return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.is_admin'=>1,'company_id'=>Yii::$app->company->id]);
     }
 
     public function getDefaultCompany(){
         return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.is_default'=>1]);
+    }
+
+    public function getCurrentCompany(){
+        return $this->hasOne(UserCompany::className(),['user_id'=>'id'])->onCondition(['user_company.company_id'=>Yii::$app->company->id]);
     }
 
 }

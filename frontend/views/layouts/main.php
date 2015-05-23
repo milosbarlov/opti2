@@ -7,6 +7,7 @@ use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use common\models\UserCompany;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -62,7 +63,7 @@ AppAsset::register($this);
                     'items'=>[
                         ['label' => 'Create new user', 'url' => Url::toRoute('user/create')],
                         ['label' => 'Update own info', 'url' => Url::toRoute(['user/update','id'=>Yii::$app->user->identity->id])],
-                        ['label' => 'Change company', 'url' =>Url::toRoute('company/change'),'linkOptions'=>['id'=>'modalButton']],
+                        ['label' => 'Change company', 'url' =>Url::toRoute('company/change'),'linkOptions'=>['id'=>'modalButton'],'visible'=>count(UserCompany::findAll(['user_id'=>Yii::$app->user->identity->id]))>1?true:false],
                         ['label' => 'Update company', 'url' => Url::toRoute(['company/update','id'=>Yii::$app->company->id])],
                         ['label' => 'Log out', 'url' =>Url::toRoute('site/logout')],
 

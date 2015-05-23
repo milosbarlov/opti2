@@ -43,6 +43,8 @@ class Company extends CompanyModel
     {
         $query = CompanyModel::find();
 
+        $query->joinWith('userCompanies',true,'INNER JOIN')->where(['user_id'=>Yii::$app->user->identity->id]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

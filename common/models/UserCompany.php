@@ -31,7 +31,9 @@ class UserCompany extends \yii\db\ActiveRecord
         return [
             [['user_id', 'company_id'], 'required'],
             [['is_default', 'is_admin'], 'integer'],
-            [['user_id', 'company_id'], 'integer']
+            [['user_id', 'company_id'], 'integer'],
+
+
         ];
     }
 
@@ -44,7 +46,7 @@ class UserCompany extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'company_id' => 'Company ID',
-            'is_default' => 'Is Default',
+            'is_default' => 'Default',
             'is_admin' => 'Is Admin',
         ];
     }
@@ -59,4 +61,17 @@ class UserCompany extends \yii\db\ActiveRecord
     public function getUser(){
        return  $this->hasOne(User::className(),['id'=>'user_id']);
     }
+
+    /**
+     * Options for is_default
+     */
+
+    public static function optionsDefault(){
+        return[
+          0=>'Ne',
+          1=>'Da'
+        ];
+    }
+
+
 }

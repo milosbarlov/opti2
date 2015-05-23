@@ -98,12 +98,17 @@ class CompanyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $userCompany = UserCompany::findOne(['user_id'=>Yii::$app->user->identity->id,'company_id'=>$model->id]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if ($model->load(Yii::$app->request->post()) && $userCompany->load(Yii::$app->request->post()))
+        {
+           exit('Odradi ovo :)');
+
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'userCompany'=>$userCompany,
             ]);
         }
     }

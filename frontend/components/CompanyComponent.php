@@ -13,7 +13,7 @@
 class CompanyComponent extends Object
 {
     private $_id;
-    private $_name;
+    private $_name = '';
     private $_company;
 
     public function getInfo(){
@@ -30,17 +30,16 @@ class CompanyComponent extends Object
     }
 
     public function getName(){
-        if(!isset($this->_name)){
-           if(Yii::$app->session->has('companyId')){
+        if(Yii::$app->session->has('companyId')){
                $company = $this->getInfo();
                $this->_name = $company->name;
-           }else{
-               $this->_name = '';
-           }
-
+        }else{
+            $this->_name = '';
         }
 
         return $this->_name;
     }
+
+
 }
 

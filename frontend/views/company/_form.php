@@ -4,10 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\City;
 use frontend\components\widget\SideMenuWidget;
+use common\models\UserCompany;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Company */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="company-form">
@@ -34,6 +36,9 @@ use frontend\components\widget\SideMenuWidget;
 
         <?= $form->field($model, 'cin')->textInput(['maxlength' => 15]) ?>
 
+        <?php if(isset($userCompany)){?>
+            <?= $form->field($userCompany, 'is_default')->dropDownList(UserCompany::optionsDefault()) ?>
+        <?php }?>
         <?= $form->field($model, 'pdv')->dropDownList($model->getPdvStatus()) ?>
 
         <div class="form-group">

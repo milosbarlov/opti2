@@ -43,7 +43,7 @@ class PacientSearch extends Pacient
     {
         $query = Pacient::find();
 
-
+        $query->where(['company_id'=>Yii::$app->company->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

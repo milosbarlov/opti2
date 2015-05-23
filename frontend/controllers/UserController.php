@@ -96,7 +96,7 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
            // print_r(Yii::$app->request->post());exit();
-            $model->setPassword($model->password);
+            $model->setPassword($model->password_hash);
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

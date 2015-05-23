@@ -24,7 +24,7 @@ use frontend\components\widget\SideMenuWidget;
 
                 <?= $form->field($model, 'username')->textInput() ?>
                 <?= $form->field($model, 'email')->textInput() ?>
-                <?= $form->field($model, 'password_hash')->passwordInput(['type'=>'password','value'=>!(empty($model->password_hash))?$model->password_hash:'']) ?>
+                <?= $form->field($model, 'password_hash')->passwordInput(['value'=>!(empty($model->password_hash))?$model->password_hash:'']) ?>
 
 
                 <div class="form-group">
