@@ -31,7 +31,7 @@ class CompanyComponent extends Object
 
     public function getName(){
         if(!isset($this->_name)){
-           if(!empty(UserCompany::findOne(Yii::$app->user->identity->id))){
+           if(Yii::$app->session->has('companyId')){
                $company = $this->getInfo();
                $this->_name = $company->name;
            }else{
