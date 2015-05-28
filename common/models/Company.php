@@ -83,7 +83,7 @@ class Company extends \yii\db\ActiveRecord
     }
 
     public function getDefaultUserCompany(){
-        return $this->hasOne(UserCompany::className(),['company_id'=>'id'])->onCondition(['user_company.is_default'=>1]);
+        return $this->hasOne(UserCompany::className(),['company_id'=>'id'])->onCondition(['user_company.is_default'=>1,'user_company.user_id'=>Yii::$app->user->identity->id]);
     }
 
     /**

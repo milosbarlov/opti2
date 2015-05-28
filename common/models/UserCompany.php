@@ -32,6 +32,7 @@ class UserCompany extends \yii\db\ActiveRecord
             [['user_id', 'company_id'], 'required'],
             [['is_default', 'is_admin'], 'integer'],
             [['user_id', 'company_id'], 'integer'],
+            ['is_default','defaultValidate'],
 
 
 
@@ -75,17 +76,23 @@ class UserCompany extends \yii\db\ActiveRecord
     }
 
     public function defaultValidate(){
-        if($this->is_default == 0){
-            $this->addError('Default', 'Ne mozete da promeniti Default na "Ne". Izaberite firmu koju zelite da vam bude Default i promenite polje na "Da" ');
-            return false;
-        }else{
-            $allCompany = UserCompany::findAll(['user_id'=>Yii::$app->user->identity->id]);
-            foreach($allCompany as $c){
-                $c->is_default = 0;
-                $c->save(false);
+        $oldValue = UserCompany::findOne($this->id);
+
+        if(!empty($oldValue->attributes)){
+            if($oldValue->is_default == 1 && $this->is_default == 0){
+                $this->addError('is_default', 'Ne mozete da promeniti Default na "Ne". Izaberite firmu koju zelite da vam bude Default i promenite polje na "Da" ');
+                return false;
+            }else if($oldValue->is_default == 0 && $this->is_default == 1){
+                $allCompany = UserCompany::findAll(['user_id'=>Yii::$app->user->identity->id]);
+                foreach($allCompany as $c){
+                    $c->is_default = 0;
+                    $c->save(false);
+                }
+                $this->is_default =1;
+                return true;
             }
-            return true;
         }
+
     }
 
 }

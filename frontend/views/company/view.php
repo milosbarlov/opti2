@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                           'attribute'=>'defaultUserCompany',
                            'label'=>'Default',
-                           'value'=>$model->defaultUserCompany->is_default == 0?'Ne':'Da',
+                           'value'=>empty($model->defaultUserCompany->is_default)?'Ne':'Da',
                         ],
                         'address',
                         'cin',
