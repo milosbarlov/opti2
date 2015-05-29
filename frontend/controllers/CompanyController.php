@@ -82,11 +82,12 @@ class CompanyController extends Controller
                     print_r($userCompany->errors);exit();
                 }
             }
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
@@ -104,12 +105,6 @@ class CompanyController extends Controller
         {
             if($model->save() && $userCompany->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
-            }else{
-
-                return $this->render('update', [
-                    'model' => $model,
-                    'userCompany'=>$userCompany,
-                ]);
             }
         }
 

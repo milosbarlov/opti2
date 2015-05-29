@@ -32,7 +32,7 @@ class Company extends \yii\db\ActiveRecord
     {
         return [
             [['tin', 'name', 'city_id', 'address'], 'required'],
-            [['city_id', 'pdv'], 'integer'],
+            [['city_id', 'pdv','tin'], 'integer'],
             [['tin', 'cin'], 'string', 'max' => 15],
             [['name', 'address'], 'string', 'max' => 255]
         ];

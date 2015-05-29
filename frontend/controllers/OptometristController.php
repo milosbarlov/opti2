@@ -73,14 +73,14 @@ class OptometristController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
-        } else {
-
-
-            return $this->render('create', [
-                'model' => $model,
-                'data'=>$data,
-            ]);
         }
+
+
+        return $this->render('create', [
+            'model' => $model,
+            'data'=>$data,
+        ]);
+
     }
 
     /**
@@ -104,12 +104,12 @@ class OptometristController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'data'=>$data,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+            'data'=>$data,
+        ]);
+
     }
 
     /**
